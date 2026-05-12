@@ -1,28 +1,26 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 int main() {
-    // 800x600 boyutlarında bir oyun penceresi oluştur
+    std::cout << "1. Adim: Program basladi..." << std::endl;
+    
+    // Pencere oluşturmayı deniyoruz
     sf::RenderWindow window(sf::VideoMode(800, 600), "Arkanoid - Seviye 1");
-    window.setFramerateLimit(60); // Oyun saniyede 60 kare (FPS) çalışsın
+    
+    std::cout << "2. Adim: Pencere basariyla olusturuldu!" << std::endl;
+    
+    window.setFramerateLimit(60);
 
-    // Oyun Döngüsü (Game Loop): Pencere açık kaldığı sürece çalışır
     while (window.isOpen()) {
         sf::Event event;
-        
-        // Kullanıcı penceredeki çarpı (X) tuşuna basarsa pencereyi kapat
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
-        // Ekranı temizle (Siyah arkaplan)
         window.clear(sf::Color::Black);
-
-        
-
-        // 3. Çizilenleri ekranda göster
         window.display();
     }
 
+    std::cout << "3. Adim: Program kapaniyor." << std::endl;
     return 0;
 }
