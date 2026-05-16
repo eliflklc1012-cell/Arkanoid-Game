@@ -20,7 +20,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SFML)
 
 # Çalıştırılabilir dosyayı oluştur
-add_executable(Arkanoid main.cpp)
+add_executable(Arkanoid main.cpp OyunFonksiyonlari.cpp)
 
 # SFML kütüphanelerini bağla
 target_link_libraries(Arkanoid PRIVATE sfml-graphics sfml-window sfml-system)

@@ -1,6 +1,7 @@
 //sfml grafik kütüphanesi ve standart kütüphaneleri dahil etme
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "OyunFonksiyonlari.hpp" //header dosyası
 
 int main() {
     std::cout << "1. Adim: Program basladi..." << std::endl;
@@ -21,20 +22,25 @@ int main() {
     //oyunun farklı bilgisayarlarda aynı hızda çalışmasını sf::clock kullanarak sağlıyoruz
             sf::Clock clock;
             float paddleSpeed = 600.0f;
+
+    // top ayarları
+        sf::CircleShape ball(10.0f); //sfmlden hazır aldığım top çizme kalıbı , buyukluğu 10
+        ball.setFillColor(sf::Color::White); //topun  rengi
+        ball.setPosition(400.0f, 300.0f);//ektranın boyutuna göre ortada durması
+        sf::Vector2f ballVelocity(300.0f, -300.0f);  //topun yönü
+        
+        
+
+
+
     //döngü, pencere açık olduğu sürece kontrolleri çizimleri yapaıcak
          while (window.isOpen()) {
     
     //  geçen süreyi hesaplama ve girdilere göre raketi hareket ettirme kısmı
             sf::Time dt =clock.restart();
-            if 
-            (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && paddle.getPosition().x> 0) {
-                paddle.move(-paddleSpeed * dt.asSeconds(), 0);
-            }
-            if 
-            (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && paddle.getPosition().x +paddle.getSize().x <800)
-            {   
-                 paddle.move(paddleSpeed * dt.asSeconds(), 0);
-            }
+            
+        raketHareketi(paddle, paddleSpeed, dt);
+        topHareketiVeDuvarSekmesi(ball, ballVelocity, dt);
             
     //kapatma tuşu gibi olayları kontrol etme 
         sf::Event event;
@@ -46,6 +52,7 @@ int main() {
     // ekran temizleme, raketi çizme ve ekrana yansıtma kısmı
         window.clear(sf::Color::Black);
         window.draw(paddle);
+        window.draw(ball);
         window.display();
     }
 
