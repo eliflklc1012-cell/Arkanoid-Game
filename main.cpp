@@ -1,5 +1,6 @@
 //sfml grafik kütüphanesi ve standart kütüphaneleri dahil etme
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include <iostream>
 #include "OyunFonksiyonlari.hpp" //header dosyası
 
@@ -29,9 +30,10 @@ int main() {
         ball.setPosition(400.0f, 300.0f);//ektranın boyutuna göre ortada durması
         sf::Vector2f ballVelocity(300.0f, -300.0f);  //topun yönü
         
-        
-
-
+    
+    //blokları tutacak olan vektörümüzü tanımlıyoruz ve dosyadan haritayı okuyup blokları ekrana dizen fonksiyonla ekrana diziyoruzz
+        std::vector<sf::RectangleShape> blocks;
+        seviyeYukle("seviye1.txt", blocks); // Döngü başlamadan önce dosyayı bir kez okuyup blokları hafızaya alır
 
     //döngü, pencere açık olduğu sürece kontrolleri çizimleri yapaıcak
          while (window.isOpen()) {
@@ -42,6 +44,7 @@ int main() {
         raketHareketi(paddle, paddleSpeed, dt);
         topHareketiVeDuvarSekmesi(ball, ballVelocity, dt);
         topRaketCarpmasi(ball, ballVelocity, paddle);
+        topBlokCarpismasi(ball,ballVelocity, blocks);
             
     //kapatma tuşu gibi olayları kontrol etme 
         sf::Event event;
@@ -54,6 +57,10 @@ int main() {
         window.clear(sf::Color::Black);
         window.draw(paddle);
         window.draw(ball);
+    //listede kalan tuğlaları tek tek çizme
+        for (const auto& block : blocks) {
+            window.draw(block);
+        }
         window.display();
     }
 
