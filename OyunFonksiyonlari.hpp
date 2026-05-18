@@ -5,6 +5,12 @@
 #include <vector>
 #include <fstream>
 
+struct Tugla {
+     sf::RectangleShape shape;
+     int can; // bir canı olan pembe 2 canı olan mor
+};
+
+
 
 //Fonksiyon Prototipleri (bildirimleri)
 
@@ -13,9 +19,9 @@ void topHareketiVeDuvarSekmesi(sf::CircleShape& ball,sf::Vector2f& ballVelocity,
 void topRaketCarpmasi(sf::CircleShape& ball, sf::Vector2f& ballVelocity, const sf::RectangleShape& paddle);
 
 //dosyadan harita yükleme fonksiyonu 
-void seviyeYukle(const std :: string&dosyaAdi, std::vector<sf::RectangleShape>&blocks);
+void seviyeYukle(const std :: string&dosyaAdi, std::vector<Tugla>&blocks);
 
 //topun tuğlaları kırıp sekmesini sağlayan fonk.
-void topBlokCarpismasi(sf::CircleShape& ball, sf::Vector2f& ballVelocity, std::vector<sf::RectangleShape>& blocks);
+void topBlokCarpismasi(sf::CircleShape& ball, sf::Vector2f& ballVelocity, std::vector<Tugla>& blocks);
 
 #endif //OYUN_FONKSİYONLARI_HPP

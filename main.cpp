@@ -32,7 +32,7 @@ int main() {
         
     
     //blokları tutacak olan vektörümüzü tanımlıyoruz ve dosyadan haritayı okuyup blokları ekrana dizen fonksiyonla ekrana diziyoruzz
-        std::vector<sf::RectangleShape> blocks;
+        std::vector<Tugla> blocks;
         seviyeYukle("seviye1.txt", blocks); // Döngü başlamadan önce dosyayı bir kez okuyup blokları hafızaya alır
 
     //döngü, pencere açık olduğu sürece kontrolleri çizimleri yapaıcak
@@ -59,7 +59,7 @@ int main() {
         window.draw(ball);
     //listede kalan tuğlaları tek tek çizme
         for (const auto& block : blocks) {
-            window.draw(block);
+            window.draw(block.shape);
         }
         window.display();
     }

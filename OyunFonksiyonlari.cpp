@@ -46,7 +46,7 @@ void topRaketCarpmasi(sf::CircleShape& ball, sf::Vector2f& ballVelocity, const s
 }
 
 //  Dosyadan haritayı okuyup blokları ekrana dizen fonksiyon
-void seviyeYukle(const std::string& dosyaAdi, std::vector<sf::RectangleShape>& blocks) {
+void seviyeYukle(const std::string& dosyaAdi, std::vector<Tugla>& blocks) {
     blocks.clear(); // Önceki seviyeden kalan bloklar varsa listeyi sıfırlıyoruz
 
     std::ifstream dosya(dosyaAdi); // Belirtilen txt dosyasını okumak için açıyoruz
@@ -69,17 +69,27 @@ void seviyeYukle(const std::string& dosyaAdi, std::vector<sf::RectangleShape>& b
 
     // Dosyadaki tüm sayıları tek tek (boşluklara göre) okuyan kısım
     while (dosya >> deger) {
-        if (deger == 1) { // Eğer sayı 1 ise orada kırılacak bir tuğla var 
-            sf::RectangleShape block(sf::Vector2f(blockWidth, blockHeight));
+        //eğer sayi 1 veya 2 ise tuğla oluşturulacak, 0 ise boşluk
+        if (deger == 1  || deger==2) { 
+            Tugla yeniTugla;
+            yeniTugla.can = deger; //tuğlanın can degerini dosyadan okunan degere göre(1/2) atıyoruz
+
+            sf::RectangleShape rect(sf::Vector2f(blockWidth, blockHeight));
             
             // Matematiksel olarak her tuğlanın ekrandaki benzersiz konumunu hesaplama
             float x = startX + sutun * (blockWidth + spacingX);
             float y = startY + satir * (blockHeight + spacingY);
+            rect.setPosition(x, y);
             
-            block.setPosition(x, y);
-            block.setFillColor(sf::Color(255, 105,180)); // Tuğlalarımızın rengi kırmızı olsun
-            
-            blocks.push_back(block); // Oluşturulan tuğlayı dinamik listemize ekle
+           if(yeniTugla.can ==2){ 
+                rect.setFillColor(sf::Color(102, 51, 153)); //canı 2 olan tuglalar mor olucak
+            }else{
+                rect.setFillColor(sf::Color(255, 105,180)); //canı bir olan pembe
+            }
+
+
+            yeniTugla.shape= rect; // oluşturduğumuz dikdörtgeni tugla yapısının shape uyesine atıyoruz
+            blocks.push_back(yeniTugla); // Oluşturulan tuğlayı dinamik listemize ekle
         }
 
         sutun++;
@@ -92,21 +102,29 @@ void seviyeYukle(const std::string& dosyaAdi, std::vector<sf::RectangleShape>& b
 }
 
 //Topun tuğlaları kırıp dikey eksende sekmesini sağlar
-void topBlokCarpismasi(sf::CircleShape& ball, sf::Vector2f& ballVelocity, std::vector<sf::RectangleShape>& blocks) {
+void topBlokCarpismasi(sf::CircleShape& ball, sf::Vector2f& ballVelocity, std::vector<Tugla>& blocks) {
     sf::FloatRect ballBounds = ball.getGlobalBounds();
 
     // Vektör(liste) içindeki tuğlaları güvenli bir şekilde silerek ilerlemek için iterator kullanıyoruz
     for (auto it = blocks.begin(); it != blocks.end(); ) {
-        sf::FloatRect blockBounds = it->getGlobalBounds();
+        sf::FloatRect blockBounds = it->shape.getGlobalBounds();
 
         // Eğer top ile döngüdeki mevcut tuğla ekranda temas ediyorsa
         if (ballBounds.intersects(blockBounds)) {
-            ballVelocity.y = -ballVelocity.y; // Topun dikey hızını tersine çeviren kısım
+            ballVelocity.y = -ballVelocity.y; 
             
+            it->can--;// Topun dikey hızını tersine çeviren kısım
+            
+
+          if(it->can <=0){
             it = blocks.erase(it); //tuğlayı listeden tamamen sil ve listeyi güncelle
-            break; // Aynı oyun karesinde(frame) sadece tek bir tuğla kırılsın diye döngüden çık
         } else {
-            ++it; // Çarpışma yoksa listedeki bir sonraki tuğlaya geç
+            it->shape.setFillColor(sf::Color(255, 105, 180));//canı kaldıysa pembeye çevir
+        }
+        break;//çarpışma sonrası döngüden çıkma
+
+        } else{
+            ++it;
         }
     }
 }
