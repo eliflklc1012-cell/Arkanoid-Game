@@ -30,3 +30,16 @@ void topHareketiVeDuvarSekmesi(sf::CircleShape& ball, sf::Vector2f & ballVelocit
         ballVelocity.y= -ballVelocity.y;
     }
 }
+
+
+// topun rakete çarpıp sekmesi mantığı
+
+void topRaketCarpmasi(sf::CircleShape& ball, sf::Vector2f& ballVelocity, const sf::RectangleShape& paddle){
+    sf::FloatRect ballBounds = ball.getGlobalBounds(); //topun ekrandaki sınırlarını alma
+    sf::FloatRect paddleBounds = paddle.getGlobalBounds(); //raketin ekrandaki sınırlarını alma
+
+
+    if (ballBounds.intersects(paddleBounds) && ballVelocity.y > 0) { //topun rakete çarpıpı çarpmadığını ve çarpışmanınn sadece aşağı doğru algılamasını sağlar
+        ballVelocity.y =  -ballVelocity.y;//temas gerçekleştiği anda topun aynı süratle yukarı doğru sekmesini sağlar
+    }
+}

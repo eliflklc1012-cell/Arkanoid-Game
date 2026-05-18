@@ -41,6 +41,7 @@ int main() {
             
         raketHareketi(paddle, paddleSpeed, dt);
         topHareketiVeDuvarSekmesi(ball, ballVelocity, dt);
+        topRaketCarpmasi(ball, ballVelocity, paddle);
             
     //kapatma tuşu gibi olayları kontrol etme 
         sf::Event event;
