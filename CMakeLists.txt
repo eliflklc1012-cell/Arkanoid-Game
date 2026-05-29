@@ -3,14 +3,11 @@ project(ArkanoidGame)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# DLL derdini TAMAMEN bitirir (Statik derleme)
+# Statik derleme ile devam ediyoruz, en temiz yöntem
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
-
-# İhtiyacımız olmayan ve hata çıkaran ekstra modülleri kapat
 set(SFML_BUILD_AUDIO OFF CACHE BOOL "Build audio" FORCE)
 set(SFML_BUILD_NETWORK OFF CACHE BOOL "Build network" FORCE)
 
-# SFML'i indir ve projeye dahil et
 include(FetchContent)
 FetchContent_Declare(
     SFML
@@ -19,8 +16,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SFML)
 
-# Çalıştırılabilir dosyayı oluştur
 add_executable(Arkanoid main.cpp OyunFonksiyonlari.cpp)
 
-# SFML kütüphanelerini bağla
+# Grafik modülü bağlı kalıyor (Tuğlalar ve top için), sadece yazı tipini koddan eliyoruz
 target_link_libraries(Arkanoid PRIVATE sfml-graphics sfml-window sfml-system)
+
+# Seviye dosyasını build klasörüne kopyalar
+file(COPY 
+    ${CMAKE_CURRENT_SOURCE_DIR}/seviye1.txt
+    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)

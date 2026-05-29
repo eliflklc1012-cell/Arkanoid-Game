@@ -1,1 +1,11 @@
 build/
+.vscode/
+
+# SFML kütüphane klasörlerini Git takibinden çıkarıyoruz
+SFML/
+
+# Derleme sonrası oluşan çalıştırılabilir (exe) dosyaları engelle
+*.exe
+*.out
+*.o
+*.obj
