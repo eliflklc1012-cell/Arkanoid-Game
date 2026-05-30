@@ -83,6 +83,7 @@ void seviyeYukle(const std::string& dosyaAdi, std::vector<Tugla>& blocks) {
     int deger;
     int satir = 0;
     int sutun = 0;
+    bool ilkTuglaOkundu = false; // Dosyadaki gizli boş satırları silmek için kontrol değişkeni
 
 // tuğlaların boyutları ve aralarındaki boşluklar
     float blockWidth = 70.f;
@@ -91,11 +92,19 @@ void seviyeYukle(const std::string& dosyaAdi, std::vector<Tugla>& blocks) {
     float spacingX = 8.f;
     float spacingY = 8.f;
 
-    float startX = 35.f;
-    float startY = 50.f;
+    float startX = 10.f;
+    float startY = 10.f;
 
     // dosyadaki tüm sayılartı tek tek (boşluklara göre) okuyarak tuğla oluşturuyoruz
     while (dosya >> deger) {
+
+        // Eğer henüz hiç tuğla okunmadıysa ve haritada 0'lar (boşluklar) geliyorsa, 
+        // bunlar en üstteki hayalet satırlardır. Sütun ve satırı sıfırlayarak tavanı temizliyoruz.
+        if (!ilkTuglaOkundu && (deger == 1 || deger == 2)) {
+            satir = 0;
+            sutun = 0;
+            ilkTuglaOkundu = true;
+        }
 
    //eğer sayi 1 veya 2 ise tuğla oluşturulacak, 0 ise boşluk
         if (deger == 1 || deger == 2) {
@@ -132,7 +141,6 @@ void seviyeYukle(const std::string& dosyaAdi, std::vector<Tugla>& blocks) {
 
     dosya.close();// Dosya ile işimiz bittiği için kapatıyoruz
 }
-
 
 
 
