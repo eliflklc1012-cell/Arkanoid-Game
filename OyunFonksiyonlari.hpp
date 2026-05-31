@@ -27,4 +27,11 @@ void seviyeYukle(const std::string& dosyaAdi, std::vector<Tugla>& blocks);
 // Topun tuğlaları kırıp sekmesini sağlayan fonksiyon (main.cpp çağrısı ile tamamen eşitlendi)
 void topBlokCarpismasi(sf::CircleShape& ball, sf::Vector2f& ballVelocity, std::vector<Tugla>& blocks, int&skor);
 
+// Güç arttırıcı (Power-up) kutularını yönetmek için  bir yapı tanımlıyoruz
+struct PowerUp {
+    sf::RectangleShape shape;
+    int tip; // 1: Raket Genişletme, 2: Top Hızlandırma
+    bool aktif = true;
+};
+
 #endif // OYUN_FONKSIYONLARI_HPP
